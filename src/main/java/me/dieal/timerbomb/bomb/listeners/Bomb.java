@@ -3,6 +3,7 @@ package me.dieal.timerbomb.bomb.listeners;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -15,6 +16,8 @@ public class Bomb implements Serializable {
     private final int seconds;
     private final float explosionPower;
     private final Location bombLocation;
+    private final Location hologramLocation;
+    private String hologramText;
     private transient ArmorStand hologram;
     private final String dateFormatter;
     private boolean defused = false;
@@ -25,19 +28,23 @@ public class Bomb implements Serializable {
         this.seconds = seconds;
         this.explosionPower = explosionPower;
         this.bombLocation = bombLocation;
+        this.hologramLocation = new Location(bombLocation.getWorld(), bombLocation.getX() + 0.5, bombLocation.getY() + 0.85, bombLocation.getBlockZ() + 0.5);
         this.hologram = createHologram();
         this.defuseTime = "";
+        this.hologramText = "";
         this.defuserName = "";
         this.dateFormatter = "dd/MM/yyyy HH:mm";
     }
 
     public void resetHologram() {
+        for (Entity e : hologramLocation.getChunk().getEntities()) {
+            if (e.getLocation().equals(hologramLocation)) e.remove();
+        }
         this.hologram = createHologram();
+        this.hologram.setCustomName(hologramText);
     }
 
     private ArmorStand createHologram() {
-        Location hologramLocation = new Location(bombLocation.getWorld(), bombLocation.getX() + 0.5, bombLocation.getY() + 0.85, bombLocation.getBlockZ() + 0.5);
-
         ArmorStand hologram = (ArmorStand) bombLocation.getWorld().spawnEntity(hologramLocation, EntityType.ARMOR_STAND);
         hologram.setVisible(false);
         hologram.setGravity(false);
@@ -85,6 +92,7 @@ public class Bomb implements Serializable {
             return;
         }
 
+        this.hologramText = name;
         this.hologram.setCustomName(name);
     }
 
