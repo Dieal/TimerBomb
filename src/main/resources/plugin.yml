@@ -1,0 +1,4 @@
+name: TimerBomb
+version: '${project.version}'
+main: me.dieal.timerbomb.TimerBomb
+api-version: 1.19
