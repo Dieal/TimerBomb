@@ -1,7 +1,5 @@
-package me.dieal.timerbomb.listeners;
+package me.dieal.timerbomb.bomb.listeners;
 
-import me.dieal.timerbomb.Bomb;
-import me.dieal.timerbomb.BombsManager;
 import me.dieal.timerbomb.TimerBomb;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -9,8 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-
-import java.util.ArrayList;
 
 
 public class BombInteractListener implements Listener {
@@ -36,8 +32,10 @@ public class BombInteractListener implements Listener {
         }
 
         Bomb bomb = manager.getBomb(bombLocation);
-        e.getPlayer().sendMessage("Defuse click");
-        bomb.defuseBomb();
+
+        if (!bomb.isDefused()) {
+            bomb.defuseBomb();
+        }
 
     }
 

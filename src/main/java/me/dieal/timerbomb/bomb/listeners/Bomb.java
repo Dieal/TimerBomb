@@ -1,4 +1,4 @@
-package me.dieal.timerbomb;
+package me.dieal.timerbomb.bomb.listeners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

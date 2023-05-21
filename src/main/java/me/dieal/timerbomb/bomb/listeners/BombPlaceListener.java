@@ -1,21 +1,15 @@
-package me.dieal.timerbomb.listeners;
+package me.dieal.timerbomb.bomb.listeners;
 
-import me.dieal.timerbomb.Bomb;
-import me.dieal.timerbomb.BombsManager;
 import me.dieal.timerbomb.Timer;
 import me.dieal.timerbomb.TimerBomb;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
 
 public class BombPlaceListener implements Listener {
 

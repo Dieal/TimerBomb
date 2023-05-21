@@ -1,5 +1,6 @@
-package me.dieal.timerbomb;
+package me.dieal.timerbomb.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,7 +21,7 @@ public class BombGiveCommand implements CommandExecutor {
         Player player = (Player) sender;
         ItemStack bomb = new ItemStack(Material.CRYING_OBSIDIAN);
         ItemMeta bombMeta = bomb.getItemMeta();
-        bombMeta.setDisplayName("Bomb");
+        bombMeta.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Timer Bomb");
         bomb.setItemMeta(bombMeta);
         player.getInventory().addItem(bomb);
 
