@@ -5,6 +5,11 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Bomb {
 
@@ -13,12 +18,18 @@ public class Bomb {
     private final Location bombLocation;
     private final ArmorStand hologram;
     private boolean defused = false;
+    private String defuserName;
+    private LocalDateTime defuseTime;
+    private DateTimeFormatter dateFormatter;
 
     public Bomb (int seconds, float exposionPower, Location bombLocation) {
         this.seconds = seconds;
         this.exposionPower = exposionPower;
         this.bombLocation = bombLocation;
         this.hologram = createHologram();
+        this.defuseTime = null;
+        this.defuserName = null;
+        this.dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     }
 
     private ArmorStand createHologram() {
@@ -55,8 +66,18 @@ public class Bomb {
         return bombLocation;
     }
 
-    //Setters
+    public String getDefuserName() {
+        if (defuserName == null) return "";
+        return defuserName;
+    }
 
+    public String getDefuseTime() {
+        if (defuseTime == null) return "";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return defuseTime.format(formatter);
+    }
+
+    //Setters
     public void setDisplayName(String name) {
         if (name == null) {
             return;
@@ -71,8 +92,10 @@ public class Bomb {
         removeBomb();
     }
 
-    public void defuseBomb () {
+    public void defuseBomb (Player defuser) {
         hologram.setCustomName(ChatColor.GREEN + "Bomb Defused");
+        defuserName = defuser.getName();
+        defuseTime = LocalDateTime.now();
         defused = true;
     }
 

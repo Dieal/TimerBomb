@@ -25,17 +25,15 @@ public class BombPlaceListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent e) {
 
         ItemStack blockItem = e.getItemInHand();
-
         if (!blockItem.getItemMeta().getDisplayName().equals(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Timer Bomb")) {
             return;
         }
 
         Block block = e.getBlock();
         Player player = e.getPlayer();
-
         Location blockLocation = block.getLocation();
-
         int seconds = 10;
+
         Bomb bomb = new Bomb(seconds, 10, blockLocation);
         manager.addBomb(bomb);
         Timer blockTimer = new Timer (bomb);

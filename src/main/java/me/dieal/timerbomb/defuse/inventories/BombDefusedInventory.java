@@ -1,9 +1,10 @@
-package me.dieal.timerbomb.defuse;
+package me.dieal.timerbomb.defuse.inventories;
 
 import me.dieal.timerbomb.bomb.listeners.Bomb;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -37,7 +38,6 @@ public class BombDefusedInventory implements InventoryHolder {
 
         ItemMeta reportMeta = report.getItemMeta();
         ArrayList<String> reportLore = new ArrayList<>();
-        reportLore.add ("");
         reportLore.add (ChatColor.WHITE + "Defused by " + bomb.getDefuserName());
         reportLore.add (ChatColor.WHITE + "Defused at " + bomb.getDefuseTime());
         reportLore.add ("");
@@ -65,6 +65,11 @@ public class BombDefusedInventory implements InventoryHolder {
     @Override
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public void openInventory (Player player) {
+        if (player == null) return;
+        player.openInventory(inventory);
     }
 
 }
