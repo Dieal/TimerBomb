@@ -11,13 +11,19 @@ public final class TimerBomb extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        BombsManager manager = new BombsManager("bombs.dat");
+        registerEvents(manager);
+        registerCommands(manager);
+    }
 
-        BombsManager manager = new BombsManager();
+    private void registerEvents(BombsManager manager) {
         getServer().getPluginManager().registerEvents(new BombPlaceListener(this, manager), this);
         getServer().getPluginManager().registerEvents(new BombInteractListener(this, manager), this);
         getServer().getPluginManager().registerEvents(new BombDefusedListener(manager), this);
-        getCommand("getbomb").setExecutor(new BombGiveCommand());
+    }
 
+    private void registerCommands (BombsManager manager) {
+        getCommand("getbomb").setExecutor(new BombGiveCommand());
     }
 
 }

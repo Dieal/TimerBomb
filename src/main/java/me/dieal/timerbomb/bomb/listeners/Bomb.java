@@ -6,29 +6,33 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Bomb {
+public class Bomb implements Serializable {
 
-    private int seconds;
-    private final float exposionPower;
+    private final int seconds;
+    private final float explosionPower;
     private final Location bombLocation;
-    private final ArmorStand hologram;
+    private transient ArmorStand hologram;
+    private final String dateFormatter;
     private boolean defused = false;
     private String defuserName;
-    private LocalDateTime defuseTime;
-    private DateTimeFormatter dateFormatter;
+    private String defuseTime;
 
-    public Bomb (int seconds, float exposionPower, Location bombLocation) {
+    public Bomb (int seconds, float explosionPower, Location bombLocation) {
         this.seconds = seconds;
-        this.exposionPower = exposionPower;
+        this.explosionPower = explosionPower;
         this.bombLocation = bombLocation;
         this.hologram = createHologram();
-        this.defuseTime = null;
-        this.defuserName = null;
-        this.dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        this.defuseTime = "";
+        this.defuserName = "";
+        this.dateFormatter = "dd/MM/yyyy HH:mm";
+    }
+
+    public void resetHologram() {
+        this.hologram = createHologram();
     }
 
     private ArmorStand createHologram() {
@@ -57,8 +61,8 @@ public class Bomb {
         return hologram;
     }
 
-    public float getExposionPower() {
-        return exposionPower;
+    public float getExplosionPower() {
+        return explosionPower;
     }
 
     public Location getBombLocation() {
@@ -71,9 +75,8 @@ public class Bomb {
     }
 
     public String getDefuseTime() {
-        if (defuseTime == null) return "";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return defuseTime.format(formatter);
+        if (defuseTime.isEmpty()) return "";
+        return defuseTime;
     }
 
     //Setters
@@ -87,14 +90,15 @@ public class Bomb {
 
     // Bomb Actions
     public void explodeBomb() {
-        bombLocation.getWorld().createExplosion(bombLocation, exposionPower, false, true);
+        bombLocation.getWorld().createExplosion(bombLocation, explosionPower, false, true);
         removeBomb();
     }
 
     public void defuseBomb (Player defuser) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormatter);
         hologram.setCustomName(ChatColor.GREEN + "Bomb Defused");
         defuserName = defuser.getName();
-        defuseTime = LocalDateTime.now();
+        defuseTime = LocalDateTime.now().format(formatter);
         defused = true;
     }
 

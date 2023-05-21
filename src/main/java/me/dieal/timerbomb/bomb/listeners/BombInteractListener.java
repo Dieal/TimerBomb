@@ -14,6 +14,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public class BombInteractListener implements Listener {
 
+    private static transient final long serialVersionUID = -1681012206529286330L;
     private TimerBomb plugin;
 
     private BombsManager manager;
