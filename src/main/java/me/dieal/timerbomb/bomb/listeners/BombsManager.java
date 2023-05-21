@@ -15,7 +15,7 @@ public class BombsManager {
     public void addBomb(Bomb bomb) {
         if (bombs == null) return;
         if (bombs.contains(bomb)) return;
-        this.bombs.add(bomb);
+        bombs.add(bomb);
     }
 
     public void removeBomb(Bomb bomb) {
@@ -34,9 +34,11 @@ public class BombsManager {
         return null;
     }
 
-    public boolean bombExists(Location location) {
+    public boolean isBomb(Location location) {
         for (Bomb b : bombs) {
-            if (b.getBombLocation().equals(location)) return true; break;
+            if (b.getBombLocation().equals(location)) {
+                return true;
+            }
         }
         return false;
     }

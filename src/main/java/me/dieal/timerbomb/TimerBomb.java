@@ -4,6 +4,7 @@ import me.dieal.timerbomb.bomb.listeners.BombsManager;
 import me.dieal.timerbomb.commands.BombGiveCommand;
 import me.dieal.timerbomb.bomb.listeners.BombInteractListener;
 import me.dieal.timerbomb.bomb.listeners.BombPlaceListener;
+import me.dieal.timerbomb.defuse.listeners.BombDefusedListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class TimerBomb extends JavaPlugin {
@@ -14,6 +15,7 @@ public final class TimerBomb extends JavaPlugin {
         BombsManager manager = new BombsManager();
         getServer().getPluginManager().registerEvents(new BombPlaceListener(this, manager), this);
         getServer().getPluginManager().registerEvents(new BombInteractListener(this, manager), this);
+        getServer().getPluginManager().registerEvents(new BombDefusedListener(manager), this);
         getCommand("getbomb").setExecutor(new BombGiveCommand());
 
     }

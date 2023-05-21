@@ -1,8 +1,7 @@
 package me.dieal.timerbomb.bomb.listeners;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -100,8 +99,11 @@ public class Bomb {
     }
 
     public void removeBomb() {
+        BlockData data = bombLocation.getBlock().getBlockData();
         hologram.remove();
         bombLocation.getBlock().setType(Material.AIR);
+        bombLocation.getWorld().spawnParticle(Particle.BLOCK_CRACK, bombLocation.add(0.5, 0.5, 0.5), 50, data);
+        bombLocation.getWorld().playSound(bombLocation, Sound.BLOCK_STONE_BREAK, 5, 1);
     }
 
 }

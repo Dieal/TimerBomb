@@ -1,7 +1,10 @@
 package me.dieal.timerbomb.bomb.listeners;
 
 import me.dieal.timerbomb.TimerBomb;
+import me.dieal.timerbomb.defuse.inventories.BombDefusedInventory;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -24,17 +27,23 @@ public class BombInteractListener implements Listener {
     public void onBombInteract (PlayerInteractEvent e) {
 
         if (!(e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
+        if (e.getClickedBlock().getType() == Material.AIR) return;
+        if (!(e.getClickedBlock().getType() == Material.CRYING_OBSIDIAN));
         if (!(e.getHand() == EquipmentSlot.HAND)) return;
 
         Location bombLocation = e.getClickedBlock().getLocation();
-        if (!(manager.bombExists(bombLocation))) {
+        if (!(manager.isBomb(bombLocation))) {
             return;
         }
 
         Bomb bomb = manager.getBomb(bombLocation);
+        Player player = e.getPlayer();
 
         if (!bomb.isDefused()) {
-            bomb.defuseBomb();
+            bomb.defuseBomb(player);
+        } else {
+            BombDefusedInventory inventory = new BombDefusedInventory(bomb);
+            inventory.openInventory(player);
         }
 
     }

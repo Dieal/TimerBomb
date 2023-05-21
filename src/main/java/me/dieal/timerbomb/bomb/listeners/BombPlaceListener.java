@@ -35,8 +35,7 @@ public class BombPlaceListener implements Listener {
         int seconds = 10;
 
         Bomb bomb = new Bomb(seconds, 10, blockLocation);
-        manager.addBomb(bomb);
-        Timer blockTimer = new Timer (bomb);
+        Timer blockTimer = new Timer (bomb, manager);
         blockTimer.runTaskTimer(plugin, 0L, 20L);
 
     }

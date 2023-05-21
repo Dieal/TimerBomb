@@ -67,6 +67,10 @@ public class BombDefusedInventory implements InventoryHolder {
         return inventory;
     }
 
+    public Bomb getClickedBomb () {
+        return bomb;
+    }
+
     public void openInventory (Player player) {
         if (player == null) return;
         player.openInventory(inventory);
