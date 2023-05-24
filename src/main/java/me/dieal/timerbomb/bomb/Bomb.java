@@ -1,23 +1,24 @@
-package me.dieal.timerbomb.bomb.listeners;
+package me.dieal.timerbomb.bomb;
 
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 public class Bomb implements Serializable {
 
-    private final int seconds;
+    private final int startSeconds;
+    private int secondsLeft;
     private final float explosionPower;
     private final Location bombLocation;
-    private final Location hologramLocation;
     private String hologramText;
+    private UUID hologramUniqueId;
     private transient ArmorStand hologram;
     private final String dateFormatter;
     private boolean defused = false;
@@ -25,10 +26,10 @@ public class Bomb implements Serializable {
     private String defuseTime;
 
     public Bomb (int seconds, float explosionPower, Location bombLocation) {
-        this.seconds = seconds;
-        this.explosionPower = explosionPower;
         this.bombLocation = bombLocation;
-        this.hologramLocation = new Location(bombLocation.getWorld(), bombLocation.getX() + 0.5, bombLocation.getY() + 0.85, bombLocation.getBlockZ() + 0.5);
+        this.startSeconds = seconds;
+        this.secondsLeft = startSeconds;
+        this.explosionPower = explosionPower;
         this.hologram = createHologram();
         this.defuseTime = "";
         this.hologramText = "";
@@ -37,14 +38,13 @@ public class Bomb implements Serializable {
     }
 
     public void resetHologram() {
-        for (Entity e : hologramLocation.getChunk().getEntities()) {
-            if (e.getLocation().equals(hologramLocation)) e.remove();
-        }
+        Bukkit.getEntity(hologramUniqueId).remove();
         this.hologram = createHologram();
         this.hologram.setCustomName(hologramText);
     }
 
     private ArmorStand createHologram() {
+        Location hologramLocation = bombLocation.clone().add(0.5, 1, 0.5);
         ArmorStand hologram = (ArmorStand) bombLocation.getWorld().spawnEntity(hologramLocation, EntityType.ARMOR_STAND);
         hologram.setVisible(false);
         hologram.setGravity(false);
@@ -52,6 +52,7 @@ public class Bomb implements Serializable {
         hologram.setSmall(true);
         hologram.setCustomNameVisible(true);
 
+        this.hologramUniqueId = hologram.getUniqueId();
         return hologram;
     }
 
@@ -60,8 +61,12 @@ public class Bomb implements Serializable {
         return defused;
     }
 
-    public int getSeconds() {
-        return seconds;
+    public int getStartSeconds() {
+        return startSeconds;
+    }
+
+    public int getSecondsLeft() {
+        return secondsLeft;
     }
 
     public ArmorStand getHologram() {
@@ -87,6 +92,10 @@ public class Bomb implements Serializable {
     }
 
     //Setters
+    public void decreaseSeconds () {
+        this.secondsLeft -= 1;
+    }
+
     public void setDisplayName(String name) {
         if (name == null) {
             return;
@@ -98,8 +107,8 @@ public class Bomb implements Serializable {
 
     // Bomb Actions
     public void explodeBomb() {
-        bombLocation.getWorld().createExplosion(bombLocation, explosionPower, false, true);
         removeBomb();
+        bombLocation.getWorld().createExplosion(bombLocation, explosionPower, false, true);
     }
 
     public void defuseBomb (Player defuser) {
@@ -112,10 +121,11 @@ public class Bomb implements Serializable {
 
     public void removeBomb() {
         BlockData data = bombLocation.getBlock().getBlockData();
-        hologram.remove();
+        System.out.println(bombLocation);
         bombLocation.getBlock().setType(Material.AIR);
         bombLocation.getWorld().spawnParticle(Particle.BLOCK_CRACK, bombLocation.add(0.5, 0.5, 0.5), 50, data);
         bombLocation.getWorld().playSound(bombLocation, Sound.BLOCK_STONE_BREAK, 5, 1);
+        hologram.remove();
     }
 
 }

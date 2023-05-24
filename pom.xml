@@ -32,7 +32,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <outputDirectory>/home/dieal/coding/java/minecraft/server/plugins/</outputDirectory>
+                    <outputDirectory>/home/chilling/coding/java/minecraft/server/plugins/</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>

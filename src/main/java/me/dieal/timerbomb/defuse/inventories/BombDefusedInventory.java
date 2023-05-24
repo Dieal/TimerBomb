@@ -1,6 +1,6 @@
 package me.dieal.timerbomb.defuse.inventories;
 
-import me.dieal.timerbomb.bomb.listeners.Bomb;
+import me.dieal.timerbomb.bomb.Bomb;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

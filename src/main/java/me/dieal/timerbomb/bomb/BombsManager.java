@@ -1,4 +1,4 @@
-package me.dieal.timerbomb.bomb.listeners;
+package me.dieal.timerbomb.bomb;
 
 import org.bukkit.Location;
 import org.bukkit.util.io.BukkitObjectInputStream;
@@ -7,20 +7,21 @@ import org.bukkit.util.io.BukkitObjectOutputStream;
 import java.io.*;
 import java.util.ArrayList;
 
-public class BombsManager implements Serializable {
+public class BombsManager {
 
     private final ArrayList<Bomb> bombs;
-    private transient final String savePath;
+    private final String savePath;
 
 
     public BombsManager(String savePath) {
         this.savePath = savePath;
-        BombsManager data = loadData(savePath);
-        if (data == null) {
-            this.bombs = new ArrayList<>();
-        } else {
-            this.bombs = data.getBombs();
-            for (Bomb b : bombs) b.resetHologram();
+        ArrayList<Bomb> data = loadData(savePath);
+        this.bombs = data;
+
+        if (!data.isEmpty()) {
+            for (Bomb b : bombs) {
+                b.resetHologram();
+            }
         }
     }
 
@@ -67,10 +68,14 @@ public class BombsManager implements Serializable {
         BukkitObjectOutputStream out = null;
 
         try {
+
             fileOut = new FileOutputStream (filePath);
             out = new BukkitObjectOutputStream(fileOut);
 
-            out.writeObject(this);
+            for (Bomb b : bombs) {
+                out.writeObject(b);
+            }
+
             out.close();
             return true;
         } catch (IOException e) {
@@ -80,23 +85,32 @@ public class BombsManager implements Serializable {
 
     }
 
-    private BombsManager loadData (String filePath) {
+    private ArrayList<Bomb> loadData (String filePath) {
 
         FileInputStream fileIn = null;
         BukkitObjectInputStream in = null;
+        ArrayList<Bomb> result = new ArrayList<>();
+        boolean eof = false;
 
         try {
             fileIn = new FileInputStream(filePath);
             in = new BukkitObjectInputStream(fileIn);
 
-            BombsManager data = (BombsManager) in.readObject();
+            while (!eof) {
+                result.add((Bomb) in.readObject());
+            }
+
             in.close();
-            return data;
+            return result;
+
+        } catch (EOFException end) {
+            eof = true;
+        } catch (FileNotFoundException fe) {
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return result;
     }
 
 }

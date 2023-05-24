@@ -2,6 +2,8 @@ package me.dieal.timerbomb.bomb.listeners;
 
 import me.dieal.timerbomb.Timer;
 import me.dieal.timerbomb.TimerBomb;
+import me.dieal.timerbomb.bomb.Bomb;
+import me.dieal.timerbomb.bomb.BombsManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

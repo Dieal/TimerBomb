@@ -1,7 +1,7 @@
 package me.dieal.timerbomb.defuse.listeners;
 
-import me.dieal.timerbomb.bomb.listeners.Bomb;
-import me.dieal.timerbomb.bomb.listeners.BombsManager;
+import me.dieal.timerbomb.bomb.Bomb;
+import me.dieal.timerbomb.bomb.BombsManager;
 import me.dieal.timerbomb.defuse.inventories.BombDefusedInventory;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 

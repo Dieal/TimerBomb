@@ -1,6 +1,8 @@
 package me.dieal.timerbomb.bomb.listeners;
 
 import me.dieal.timerbomb.TimerBomb;
+import me.dieal.timerbomb.bomb.Bomb;
+import me.dieal.timerbomb.bomb.BombsManager;
 import me.dieal.timerbomb.defuse.inventories.BombDefusedInventory;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,7 +16,6 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public class BombInteractListener implements Listener {
 
-    private static transient final long serialVersionUID = -1681012206529286330L;
     private TimerBomb plugin;
 
     private BombsManager manager;
@@ -29,7 +30,7 @@ public class BombInteractListener implements Listener {
 
         if (!(e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
         if (e.getClickedBlock().getType() == Material.AIR) return;
-        if (!(e.getClickedBlock().getType() == Material.CRYING_OBSIDIAN));
+        if (!(e.getClickedBlock().getType() == Material.CRYING_OBSIDIAN)) return;
         if (!(e.getHand() == EquipmentSlot.HAND)) return;
 
         Location bombLocation = e.getClickedBlock().getLocation();

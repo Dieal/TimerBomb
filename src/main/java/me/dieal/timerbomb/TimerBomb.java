@@ -1,6 +1,6 @@
 package me.dieal.timerbomb;
 
-import me.dieal.timerbomb.bomb.listeners.BombsManager;
+import me.dieal.timerbomb.bomb.BombsManager;
 import me.dieal.timerbomb.commands.BombGiveCommand;
 import me.dieal.timerbomb.bomb.listeners.BombInteractListener;
 import me.dieal.timerbomb.bomb.listeners.BombPlaceListener;
